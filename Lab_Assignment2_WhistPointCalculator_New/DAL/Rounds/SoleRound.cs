@@ -8,7 +8,6 @@ namespace Lab_Assignment2_WhistPointCalculator
     public class SoleRound : Rounds
     {
         //Attributes
-        public string Soletype { get; set; }
         
     }
 }

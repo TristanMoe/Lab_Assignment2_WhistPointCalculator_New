@@ -12,7 +12,7 @@ namespace Lab_Assignment2_WhistPointCalculator
 
         //Primary Key
         [Required]
-        public string Id { get; set; }
+        public int PlayerId { get; set; }
 
         [Required]
         [MaxLength(20)]

@@ -9,16 +9,19 @@ namespace Lab_Assignment2_WhistPointCalculator
     public class GameRoundPlayers
     {
         //Attributes
-        public int ByePoints { get; set; }
+        public int Points { get; set; }
+        public bool Bye { get; set; }
 
         [Required]
         //Foreign Key
-        public string GameRoundsId { get; set; }
+        public int GameRoundsId { get; set; }
         //Navigation Property 
         public GameRounds GameRound { get; set; }
 
-        //Do not understand this foreign Key
-        //public int PlayerPos {get; set;}
+        //Foreign key to players
+        public int PlayerPosition { get; set; }
 
+        //Navigation property to GamePlayers PlayerPosition 
+        public GamePlayers GamePlayer { get; set; }
     }
 }

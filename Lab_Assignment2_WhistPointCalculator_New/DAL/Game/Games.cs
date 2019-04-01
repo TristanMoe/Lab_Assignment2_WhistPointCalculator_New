@@ -13,17 +13,16 @@ namespace Lab_Assignment2_WhistPointCalculator
 
         //Primary Key
         [Required]
-        public string GamesId { get; set; }
+        public int GamesId { get; set; }
 
         public string Description { get; set; }
 
-        public string Started { get; set; }
-
-        //Not sure what this should be...
-        public DateTime EndedUpdated { get; set; }
+        public bool Started { get; set; }
+        public bool Ended { get; set; }
+        public bool Updated { get; set; }
 
         //Foreign Key for Location
-        public string LocationId { get; set; }
+        public int LocationId { get; set; }
 
         //Navigation Property for Location
         public List<Location> Location { get; set; }
