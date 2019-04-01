@@ -10,17 +10,19 @@ namespace Lab_Assignment2_WhistPointCalculator
         //Attributes
 
         //Primary Key
-        public string GameRoundsId { get; set; }
+        [Required]
+        public int GameRoundsId { get; set; }
 
         public int RoundNumber { get; set; }
 
         //Not entirely sure what these are supposed to mean
         //TODO: Discuss 'em
-        public int DealerPositionEnded { get; set; }
-        public int Started { get; set; }
+        public int DealerPosition { get; set; }
+        public bool Ended { get; set; }
+        public bool Started { get; set; }
 
         //Foreign key for Games
-        public string GamesId { get; set; }
+        public int GamesId { get; set; }
         //Navigation Property for Games
         public Games Game { get; set; }
 
@@ -30,9 +32,12 @@ namespace Lab_Assignment2_WhistPointCalculator
         //Navigation Property for SoleRoundWinner
         public List<SoleRoundWinner> SR_Winners { get; set; }
 
+        [Required]
+        //Foreign Key for roundtype 
+        public int RoundTypeId { get; set; }
+
         //Navigation Property for Rounds
         public List<Rounds> Rounds { get; set; }
-
     }
 
 }

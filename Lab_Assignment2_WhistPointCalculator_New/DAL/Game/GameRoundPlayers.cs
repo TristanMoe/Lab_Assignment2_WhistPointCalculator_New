@@ -10,19 +10,18 @@ namespace Lab_Assignment2_WhistPointCalculator
     {
         //Attributes
         public int Points { get; set; }
-        public int Bye { get; set; }
+        public bool Bye { get; set; }
 
         [Required]
         //Foreign Key
-        public string GameRoundsId { get; set; }
+        public int GameRoundsId { get; set; }
         //Navigation Property 
         public GameRounds GameRound { get; set; }
 
         //Foreign key to players
-        public string PlayerId { get; set; }
+        public int PlayerPosition { get; set; }
 
         //Navigation property to GamePlayers PlayerPosition 
-        public Players PlayerPosition { get; set; }
-
+        public GamePlayers GamePlayer { get; set; }
     }
 }

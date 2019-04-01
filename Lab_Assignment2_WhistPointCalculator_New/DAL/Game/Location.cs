@@ -10,9 +10,8 @@ namespace Lab_Assignment2_WhistPointCalculator
         //Attributes
 
         //Primary Key
-        public string LocationId { get; set; }
+        public int LocationId { get; set; }
         public string Name { get; set; }
-
         //Navigation Property for Games
         public Games Game { get; set; }
     }
