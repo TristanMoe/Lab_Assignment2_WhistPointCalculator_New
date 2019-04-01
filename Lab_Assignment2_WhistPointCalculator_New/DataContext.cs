@@ -9,6 +9,11 @@ namespace Lab_Assignment2_WhistPointCalculator
     public class DataContext : DbContext
 
     {
+        public DataContext(DbContextOptions<DataContext> options)
+            :base(options)
+        {
+            
+        }
         #region Entity Declaration
         public DbSet<GamePlayers> GamePlayers { get; set; }
         public DbSet<Players> Players { get; set; }
@@ -21,13 +26,7 @@ namespace Lab_Assignment2_WhistPointCalculator
         public DbSet<NormalRound> NormalRounds { get; set; }
         public DbSet<SoleRoundWinner> SoleRoundWinners { get; set; }
         #endregion
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder
-                .UseSqlServer(
-                    "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Trill\\OneDrive\\Dokumenter\\WhistPointCalculator.mdf;Integrated Security=True;Connect Timeout=30");
-        }
+        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
