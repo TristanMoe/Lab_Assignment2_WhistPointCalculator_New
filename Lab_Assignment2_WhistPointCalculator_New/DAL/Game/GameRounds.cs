@@ -32,7 +32,7 @@ namespace Lab_Assignment2_WhistPointCalculator
 
         //Navigation Property for Rounds
         public List<Rounds> Rounds { get; set; }
-
+        
     }
 
 }

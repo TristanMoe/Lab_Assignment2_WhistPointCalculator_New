@@ -84,25 +84,25 @@ namespace Lab_Assignment2_WhistPointCalculator
             /// can be placed in several locations
             /// </summary>
             modelBuilder.Entity<Games>()
-                .HasMany(p => p.Location)
-                .WithOne(b => b.Game)
-                .HasForeignKey(k => k.LocationId);
+                .HasMany(g => g.Location)
+                .WithOne(l => l.Game)
+                .HasForeignKey(l => l.LocationId);
 
             /// <summary>
             /// A Game can have several players 
             /// </summary>
             modelBuilder.Entity<Games>()
-                .HasMany(p => p.GamePlayers)
-                .WithOne(b => b.Game)
-                .HasForeignKey(k => k.GamesId); 
+                .HasMany(g => g.GamePlayers)
+                .WithOne(gp => gp.Game)
+                .HasForeignKey(gp => gp.GamesId); 
 
             /// <summary>
             /// A Game can have several Gamerounds
             /// </summary>
             modelBuilder.Entity<GameRounds>()
-                .HasOne(p => p.Game)
-                .WithMany(b => b.GameRounds)
-                .HasForeignKey(k => k.GamesId); 
+                .HasOne(gr => gr.Game)
+                .WithMany(g => g.GameRounds)
+                .HasForeignKey(g => g.GamesId); 
             #endregion
 
             /// <summary>
@@ -113,26 +113,26 @@ namespace Lab_Assignment2_WhistPointCalculator
             /// A Game Round can have several GameRoundPlayers
             /// </summary>
             modelBuilder.Entity<GameRounds>()
-                .HasMany(p => p.GRPs)
-                .WithOne(b => b.GameRound)
-                .HasForeignKey(k => k.GameRoundsId); 
+                .HasMany(gr => gr.GRPs)
+                .WithOne(grp => grp.GameRound)
+                .HasForeignKey(grp => grp.GameRoundsId); 
 
             
             /// <summary>
             /// A Game Round can consists of several rounds
             /// </summary>
             modelBuilder.Entity<GameRounds>()
-                .HasMany(p => p.Rounds)
-                .WithOne(b => b.Gameround)
-                .HasForeignKey(k => k.GameRoundsId); 
+                .HasMany(gr => gr.Rounds)
+                .WithOne(r => r.Gameround)
+                .HasForeignKey(r => r.GameRoundsId); 
             
             /// <summary>
             /// A Game Round can consists of SoleRoundWinners
             /// </summary>
             modelBuilder.Entity<GameRounds>()
-                .HasMany(p => p.SR_Winners)
-                .WithOne(b => b.GameRound)
-                .HasForeignKey(k => k.GameRoundsId);
+                .HasMany(gr => gr.SR_Winners)
+                .WithOne(srw => srw.GameRound)
+                .HasForeignKey(srw => srw.GameRoundsId);
             #endregion
 
             /// <summary>
