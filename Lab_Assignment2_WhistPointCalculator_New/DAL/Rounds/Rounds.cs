@@ -12,19 +12,4 @@ namespace Lab_Assignment2_WhistPointCalculator
         //Navigation Property 
         public GameRounds Gameround { get; set; }
     }
-
-    public class SoleRound : Rounds
-    {
-        //Attributes
-        public string Soletype { get; set; }
-
-        
-    }
-
-    public class NormalRound : Rounds
-    {
-        //Attributes 
-
-        //Not sure about the attributes or foreign keys
-    }
 }

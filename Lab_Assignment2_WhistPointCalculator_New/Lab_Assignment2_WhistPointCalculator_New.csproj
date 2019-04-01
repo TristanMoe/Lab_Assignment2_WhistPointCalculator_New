@@ -3,6 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <RootNamespace>Lab_Assignment2_WhistPointCalculator</RootNamespace>
+    <AssemblyName>Lab_Assignment2_WhistPointCalculator_New</AssemblyName>
   </PropertyGroup>
 
 

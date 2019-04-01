@@ -28,25 +28,4 @@ namespace Lab_Assignment2_WhistPointCalculator
         //Navigation Property for Games 
         public Games Game { get; set; }
     }
-
-    public class Players
-    {
-        //Attributes
-
-        //Primary Key
-        [Required]
-        public string Id { get; set; }
-
-        [Required]
-        [MaxLength(20)]
-        public string FirstName { get; set; }
-
-        [Required]
-        [MaxLength(20)]
-        public string LastName { get; set; }
-
-        [Required]
-        //Navigation Property
-        public List<GamePlayers> GamePlayers { get; set; }
-    }
 }

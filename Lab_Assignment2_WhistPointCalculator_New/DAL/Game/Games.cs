@@ -34,16 +34,4 @@ namespace Lab_Assignment2_WhistPointCalculator
         //Navigation Property for Gameplayers
         public List<GamePlayers> GamePlayers { get; set; }
     }
-
-    public class Location
-    {
-        //Attributes
-
-        //Primary Key
-        public string LocationId { get; set; }
-        public string Name { get; set; }
-
-        //Navigation Property for Games
-        public Games Game { get; set; }
-    }
 }
