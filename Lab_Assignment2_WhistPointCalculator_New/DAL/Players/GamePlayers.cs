@@ -11,8 +11,6 @@ namespace Lab_Assignment2_WhistPointCalculator
 
         //Primary Key
         [Required]
-        public string GamePlayersId { get; set; }
-
         public int PlayerPosition { get; set; }
 
         public int Points { get; set; }
@@ -23,6 +21,9 @@ namespace Lab_Assignment2_WhistPointCalculator
 
         //Foreign Key for Game
         public string GamesId { get; set; }
+
+        //Foreign key for Player 
+        public string PlayerId { get; set; }
 
         [Required]
         //Navigation Property for Games 
