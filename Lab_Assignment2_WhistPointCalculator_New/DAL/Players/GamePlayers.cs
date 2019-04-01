@@ -24,7 +24,7 @@ namespace Lab_Assignment2_WhistPointCalculator
         //Foreign Key for Game
         public string GamesId { get; set; }
 
-        //[Required]
+        [Required]
         //Navigation Property for Games 
         public Games Game { get; set; }
     }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Lab_Assignment2_WhistPointCalculator.Migrations
 {
-    public partial class _10Creation : Migration
+    public partial class _12Creation : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
