@@ -155,7 +155,10 @@ namespace Lab_Assignment2_WhistPointCalculator
 
             #region PlayerPosition Relations 
             
-
+            modelBuilder.Entity<GamePlayers>()
+                .HasMany(gp => gp.GameRoundPlayers)
+                .WithOne(grp => grp.GamePlayer)
+                .HasForeignKey(grp => grp.PlayerPositionId);
             #endregion
         }
     }
