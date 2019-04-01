@@ -131,7 +131,7 @@ namespace Lab_Assignment2_WhistPointCalculator
             modelBuilder.Entity<GameRounds>()
                 .HasMany(gr => gr.Rounds)
                 .WithOne(r => r.Gameround)
-                .HasForeignKey(r => r.GameRoundsId); 
+                .HasForeignKey(gr => gr.RoundTypeId); 
             
             /// <summary>
             /// A Game Round can consists of SoleRoundWinners
