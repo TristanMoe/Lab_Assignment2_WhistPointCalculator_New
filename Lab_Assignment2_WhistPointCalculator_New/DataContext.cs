@@ -41,7 +41,6 @@ namespace Lab_Assignment2_WhistPointCalculator
              */
 
             #region Keys 
-
             modelBuilder.Entity<Players>()
                 .HasKey(p => p.PlayerId);
 
@@ -116,7 +115,7 @@ namespace Lab_Assignment2_WhistPointCalculator
             modelBuilder.Entity<GameRounds>()
                 .HasMany(gr => gr.Rounds)
                 .WithOne(r => r.Gameround)
-                .HasForeignKey(gr => gr.RoundTypeId); 
+                .HasForeignKey(gr => gr.GameRoundsId); 
             
             // <summary>
             // A Game Round can consists of SoleRoundWinners
@@ -143,22 +142,22 @@ namespace Lab_Assignment2_WhistPointCalculator
             modelBuilder.Entity<GamePlayers>()
                 .HasMany(gp => gp.SoleRoundWinners)
                 .WithOne(srw => srw.GamePlayer)
-                .HasForeignKey(srw => srw.PlayerPositionId);
+                .HasForeignKey(srw => new {srw.GameRoundsId, srw.PlayerPositionId});
             
             modelBuilder.Entity<GamePlayers>()
                 .HasMany(gp => gp.GameRoundPlayers)
                 .WithOne(grp => grp.GamePlayer)
-                .HasForeignKey(grp => grp.PlayerPositionId);
+                .HasForeignKey(grp => new {grp.PlayerPositionId, grp.GameRoundsId});
 
             modelBuilder.Entity<GamePlayers>()
                 .HasOne(gp => gp.WinnerNormalRound)
                 .WithOne(nr => nr.BidWinnerGameplayer)
-                .HasForeignKey<NormalRound>(nr => nr.BidWinnerPositionId);
+                .HasForeignKey<NormalRound>(nr => new {nr.BidWinnerPositionId, nr.GameRoundsId});
 
             modelBuilder.Entity<GamePlayers>()
                 .HasOne(gp => gp.WinnerMateNormalRound)
                 .WithOne(nr => nr.BidWinnerMateGameplayer)
-                .HasForeignKey<NormalRound>(nr => nr.BidWinnerMatePositionId);
+                .HasForeignKey<NormalRound>(nr => new { nr.BidWinnerMatePositionId, nr.GameRoundsId});
 
             #endregion
 
