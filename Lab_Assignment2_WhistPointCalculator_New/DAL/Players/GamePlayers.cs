@@ -31,5 +31,7 @@ namespace Lab_Assignment2_WhistPointCalculator
 
         //Navigation property for game round player
         public List<GameRoundPlayers> GameRoundPlayers { get; set; }
+
+        public List<SoleRoundWinner> SoleRoundWinners { get; set; }
     }
 }

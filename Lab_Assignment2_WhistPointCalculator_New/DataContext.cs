@@ -58,7 +58,7 @@ namespace Lab_Assignment2_WhistPointCalculator
 
             //No keys? 
             modelBuilder.Entity<GameRoundPlayers>()
-                .HasKey(k => new {k.PlayerPosition, k.GameRoundsId}); 
+                .HasKey(k => new {k.PlayerPositionId, k.GameRoundsId}); 
 
             modelBuilder.Entity<Rounds>()
                 .HasKey(k => k.GameRoundsId);
@@ -158,8 +158,6 @@ namespace Lab_Assignment2_WhistPointCalculator
                 .HasOne(srw => srw.GamePlayer)
                 .WithMany(gp => gp.SoleRoundWinners)
                 .HasForeignKey(srw => srw.PlayerPositionId);
-
-
             
             modelBuilder.Entity<GamePlayers>()
                 .HasMany(gp => gp.GameRoundPlayers)
