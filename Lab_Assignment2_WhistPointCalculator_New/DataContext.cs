@@ -172,9 +172,14 @@ namespace Lab_Assignment2_WhistPointCalculator
             //Maximum 9 rounds, since a minimum of 1 point is won each gameround
             modelBuilder.Entity<GameRounds>()
                 .Property(gr => gr.RoundNumber)
-                .HasMaxLength(9); 
+                .HasMaxLength(9);
 
+            //Maximum 13 tricks can be won each round
+            modelBuilder.Entity<NormalRound>()
+                .Property(nr => nr.BidTricks)
+                .HasMaxLength(13); 
 
+           
 
 
             #endregion

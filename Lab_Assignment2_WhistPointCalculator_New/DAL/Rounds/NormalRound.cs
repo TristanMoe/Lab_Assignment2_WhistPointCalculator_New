@@ -9,9 +9,9 @@ namespace Lab_Assignment2_WhistPointCalculator
     public class NormalRound : Rounds
     {
         //Attributes 
-        public int Tricks { get; set; }
+        public List<int> Tricks { get; set; }
         public int BidAttachment { get; set; }
-        public int BidTricks { get; set; }
+        public List<int> BidTricks { get; set; }
 
         [Required]
         //Foreign key for bid winner position 
