@@ -36,7 +36,8 @@ namespace Lab_Assignment2_WhistPointCalculator
         public List<SoleRoundWinner> SoleRoundWinners { get; set; }
 
         //Navigation properties for normalround
-        public NormalRound NormalRound { get; set; }
+        public NormalRound WinnerNormalRound { get; set; }
+        public NormalRound WinnerMateNormalRound { get; set; }
 
 
     }

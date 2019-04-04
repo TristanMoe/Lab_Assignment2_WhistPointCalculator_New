@@ -150,12 +150,12 @@ namespace Lab_Assignment2_WhistPointCalculator
                 .HasForeignKey(grp => grp.PlayerPositionId);
 
             modelBuilder.Entity<GamePlayers>()
-                .HasOne(gp => gp.NormalRound)
+                .HasOne(gp => gp.WinnerNormalRound)
                 .WithOne(nr => nr.BidWinnerGameplayer)
                 .HasForeignKey<NormalRound>(nr => nr.BidWinnerPositionId);
 
             modelBuilder.Entity<GamePlayers>()
-                .HasOne(gp => gp.NormalRound)
+                .HasOne(gp => gp.WinnerMateNormalRound)
                 .WithOne(nr => nr.BidWinnerMateGameplayer)
                 .HasForeignKey<NormalRound>(nr => nr.BidWinnerMatePositionId);
 
