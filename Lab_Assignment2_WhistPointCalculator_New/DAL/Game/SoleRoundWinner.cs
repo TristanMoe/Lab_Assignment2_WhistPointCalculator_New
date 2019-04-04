@@ -20,7 +20,9 @@ namespace Lab_Assignment2_WhistPointCalculator
         //Player position foreign key
         public int PlayerPositionId { get; set; }
 
+
         //Navigation property 
         public GamePlayers GamePlayer { get; set; }
+
     }
 }
