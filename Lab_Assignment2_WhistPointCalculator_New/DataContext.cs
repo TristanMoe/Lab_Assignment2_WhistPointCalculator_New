@@ -63,88 +63,73 @@ namespace Lab_Assignment2_WhistPointCalculator
             modelBuilder.Entity<Rounds>()
                 .HasKey(k => k.GameRoundsId);
 
-            modelBuilder.Entity<NormalRound>()
-                .HasKey(k => new {k.GameRoundsId, k.BidWinnerPositionId, k.BidWinnerMatePositionId});
-
-            modelBuilder.Entity<SoleRound>()
-                .HasKey(k => k.GameRoundsId);
-
             modelBuilder.Entity<SoleRoundWinner>()
                 .HasKey(k => new {k.GameRoundsId, k.PlayerPositionId}); 
             #endregion
 
-            /// <summary>
-            /// Inheritance setup for Rounds
-            /// </summary>
             #region Round & SoleRound / Normal Round
             modelBuilder.Entity<SoleRound>().HasBaseType<Rounds>();
             modelBuilder.Entity<NormalRound>().HasBaseType<Rounds>();
             #endregion
 
-            /// <summary>
-            /// Games and relations (Location, Game Rounds, Game Players)
-            /// </summary>
             #region Games & Relations
-            /// <summary>
-            /// One location has one Game, but a Game
-            /// can be placed in several locations
-            /// </summary>
+            // <summary>
+            // One location has one Game, but a Game
+            // can be placed in several locations
+            // </summary>
             modelBuilder.Entity<Games>()
                 .HasMany(g => g.Location)
                 .WithOne(l => l.Game)
                 .HasForeignKey(l => l.LocationId);
 
-            /// <summary>
-            /// A Game can have several players 
-            /// </summary>
+            // <summary>
+            // A Game can have several players 
+            // </summary>
             modelBuilder.Entity<Games>()
                 .HasMany(g => g.GamePlayers)
                 .WithOne(gp => gp.Game)
                 .HasForeignKey(gp => gp.GamesId); 
 
-            /// <summary>
-            /// A Game can have several Gamerounds
-            /// </summary>
+            // <summary>
+            // A Game can have several Gamerounds
+            // </summary>
             modelBuilder.Entity<GameRounds>()
                 .HasOne(gr => gr.Game)
                 .WithMany(g => g.GameRounds)
                 .HasForeignKey(g => g.GamesId); 
             #endregion
 
-            /// <summary>
-            /// Game Rounds and relations (Rounds, GameRoundPlayers, SoleRoundWinner)
-            /// </summary>
             #region Game Rounds & Relations
-            /// <summary>
-            /// A Game Round can have several GameRoundPlayers
-            /// </summary>
+            // <summary>
+            // A Game Round can have several GameRoundPlayers
+            // </summary>
             modelBuilder.Entity<GameRounds>()
                 .HasMany(gr => gr.GRPs)
                 .WithOne(grp => grp.GameRound)
                 .HasForeignKey(grp => grp.GameRoundsId); 
 
             
-            /// <summary>
-            /// A Game Round can consists of several rounds
-            /// </summary>
+            // <summary>
+            // A Game Round can consists of several rounds
+            // </summary>
             modelBuilder.Entity<GameRounds>()
                 .HasMany(gr => gr.Rounds)
                 .WithOne(r => r.Gameround)
                 .HasForeignKey(gr => gr.RoundTypeId); 
             
-            /// <summary>
-            /// A Game Round can consists of SoleRoundWinners
-            /// </summary>
+            // <summary>
+            // A Game Round can consists of SoleRoundWinners
+            // </summary>
             modelBuilder.Entity<GameRounds>()
                 .HasMany(gr => gr.SR_Winners)
                 .WithOne(srw => srw.GameRound)
                 .HasForeignKey(srw => srw.GameRoundsId);
             #endregion
 
-            /// <summary>
-            /// Player has one Gameplayer,
-            /// but GamePlayer has many players?
-            /// </summary>
+            // <summary>
+            // Player has one Gameplayer,
+            // but GamePlayer has many players?
+            // </summary>
             #region Players & GamePlayers
             modelBuilder.Entity<Players>()
                 .HasMany(gm => gm.GamePlayers)
@@ -163,6 +148,24 @@ namespace Lab_Assignment2_WhistPointCalculator
                 .HasMany(gp => gp.GameRoundPlayers)
                 .WithOne(grp => grp.GamePlayer)
                 .HasForeignKey(grp => grp.PlayerPositionId);
+            #endregion
+
+
+            //Constraints
+            #region Constraints
+            //Max 4 players per game
+            modelBuilder.Entity<Games>()
+                .Property(g => g.GamePlayers)
+                .HasMaxLength(4);
+
+            //Maximum 9 rounds, since a minimum of 1 point is won each gameround
+            modelBuilder.Entity<GameRounds>()
+                .Property(gr => gr.RoundNumber)
+                .HasMaxLength(9); 
+
+
+
+
             #endregion
         }
     }
