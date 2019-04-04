@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using Lab_Assignment2_WhistPointCalculator.DAL;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Lab_Assignment2_WhistPointCalculator
@@ -161,7 +162,7 @@ namespace Lab_Assignment2_WhistPointCalculator
 
             #endregion
 
-
+            DataSeeder.Seed(modelBuilder);
         }
     }
 }
