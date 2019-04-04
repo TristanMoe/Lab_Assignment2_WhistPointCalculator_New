@@ -7,8 +7,7 @@ namespace Lab_Assignment2_WhistPointCalculator
 {
     public class Rounds
     {
-        [Required]
-        public string RoundTypeId { get; set; }
+        public string RoundType { get; set; }
 
         [Required]
         //Foreign key for Gamerounds
