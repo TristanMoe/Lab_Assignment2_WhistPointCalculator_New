@@ -162,27 +162,6 @@ namespace Lab_Assignment2_WhistPointCalculator
             #endregion
 
 
-            //Constraints
-            #region Constraints
-            //Max 4 players per game
-            modelBuilder.Entity<Games>()
-                .Property(g => g.GamePlayers)
-                .HasMaxLength(4);
-
-            //Maximum 9 rounds, since a minimum of 1 point is won each gameround
-            modelBuilder.Entity<GameRounds>()
-                .Property(gr => gr.RoundNumber)
-                .HasMaxLength(9);
-
-            //Maximum 13 tricks can be won each round
-            modelBuilder.Entity<NormalRound>()
-                .Property(nr => nr.BidTricks)
-                .HasMaxLength(13); 
-
-           
-
-
-            #endregion
         }
     }
 }
