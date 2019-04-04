@@ -154,15 +154,26 @@ namespace Lab_Assignment2_WhistPointCalculator
 
             #region PlayerPosition Relations 
 
-            modelBuilder.Entity<SoleRoundWinner>()
-                .HasOne(srw => srw.GamePlayer)
-                .WithMany(gp => gp.SoleRoundWinners)
+            modelBuilder.Entity<GamePlayers>()
+                .HasMany(gp => gp.SoleRoundWinners)
+                .WithOne(srw => srw.GamePlayer)
                 .HasForeignKey(srw => srw.PlayerPositionId);
             
             modelBuilder.Entity<GamePlayers>()
                 .HasMany(gp => gp.GameRoundPlayers)
                 .WithOne(grp => grp.GamePlayer)
                 .HasForeignKey(grp => grp.PlayerPositionId);
+
+            modelBuilder.Entity<GamePlayers>()
+                .HasOne(gp => gp.NormalRound)
+                .WithOne(nr => nr.BidWinnerGameplayer)
+                .HasForeignKey<NormalRound>(nr => nr.BidWinnerPositionId);
+
+            modelBuilder.Entity<GamePlayers>()
+                .HasOne(gp => gp.NormalRound)
+                .WithOne(nr => nr.BidWinnerMateGameplayer)
+                .HasForeignKey<NormalRound>(nr => nr.BidWinnerMatePositionId);
+
             #endregion
         }
     }
