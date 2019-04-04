@@ -11,7 +11,6 @@ namespace Lab_Assignment2_WhistPointCalculator
         //Attributes
 
         //Primary Key
-        [Required]
         public int PlayerId { get; set; }
 
         [Required]
@@ -22,7 +21,6 @@ namespace Lab_Assignment2_WhistPointCalculator
         [MaxLength(20)]
         public string LastName { get; set; }
 
-        [Required]
         //Navigation Property
         public List<GamePlayers> GamePlayers { get; set; }
     }

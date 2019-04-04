@@ -22,7 +22,7 @@ namespace Lab_Assignment2_WhistPointCalculator_New.Controllers
             return View(await _dbContext.Players.ToListAsync());
         }
 
-        public async Task<IActionResult> Create([Bind("FirstName,LastName")] Players playerModel)
+        public async Task<IActionResult> AddPlayer([Bind("FirstName,LastName")] Players playerModel)
         {
             if (ModelState.IsValid)
             {
