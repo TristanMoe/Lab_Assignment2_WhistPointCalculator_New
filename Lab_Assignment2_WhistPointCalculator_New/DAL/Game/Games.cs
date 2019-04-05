@@ -14,6 +14,7 @@ namespace Lab_Assignment2_WhistPointCalculator
         //Primary Key
         [Required]
         public int GamesId { get; set; }
+        public string Name { get; set; }
 
         public string Description { get; set; }
 
