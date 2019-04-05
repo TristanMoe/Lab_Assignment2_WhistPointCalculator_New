@@ -14,9 +14,6 @@ namespace Lab_Assignment2_WhistPointCalculator_New.Controllers
         private DataContext _dbContext;
         public HomeController(DataContext dbContext)
         {
-            _dbContext = dbContext;
-            _dbContext.Players.Add(new Players() {FirstName = "Marcus", LastName = "Gasberg"});
-            _dbContext.SaveChanges();
         }
         public IActionResult Index()
         {

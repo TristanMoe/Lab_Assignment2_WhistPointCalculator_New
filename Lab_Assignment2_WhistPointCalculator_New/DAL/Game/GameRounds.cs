@@ -13,6 +13,7 @@ namespace Lab_Assignment2_WhistPointCalculator
         [Required]
         public int GameRoundsId { get; set; }
 
+        [Range(1,9)]
         public int RoundNumber { get; set; }
 
         //Not entirely sure what these are supposed to mean

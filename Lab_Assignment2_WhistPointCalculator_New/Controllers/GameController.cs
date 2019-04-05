@@ -25,8 +25,8 @@ namespace Lab_Assignment2_WhistPointCalculator_New.Controllers
         public IActionResult EditPlayers()
         {
             var viewModel = new EditPlayersViewModel(){Players = _dbContext.Players.ToList()};
-            
-            return View(viewModel);
+
+            return RedirectToAction(nameof(Index), "Players");
         }
     }
 }
