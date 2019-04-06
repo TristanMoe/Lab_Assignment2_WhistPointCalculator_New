@@ -8,16 +8,22 @@ namespace Lab_Assignment2_WhistPointCalculator
 {
     public class ShowViews
     {
-        public async Task<List<Games>>ListGamesWithNumberOfPlayer(DataContext db)
+        public DataContext _db { get; private set; }
+
+        public ShowViews(DataContext db)
         {
-            var listOfGames=await db.Games
+            _db = db;
+        }
+        public async Task<List<Games>> ListGamesWithNumberOfPlayer()
+        {
+            var listOfGames=await _db.Games
                 .Include(players => players.GamePlayers).AsNoTracking().ToListAsync();
             return listOfGames;
         }
 
-        public async Task<Games> GetRoundInformation(DataContext db, int gamesId)
+        public async Task<Games> GetRoundInformation(int gamesId)
         {
-            var game = await db.Games
+            var game = await _db.Games
                 .Include(d => d.GameRounds)
                     .ThenInclude(p => p.GRPs)
                         .ThenInclude(p => p.GamePlayer)
@@ -45,5 +51,15 @@ namespace Lab_Assignment2_WhistPointCalculator
              //Tristan er langsom så funktionen er ikke færdig*/
         }
 
+        public async Task<List<Games>> GameWinners(DataContext db)
+        {
+            /*var games=await db.Games
+                .Include(p=>p.Wi)*/
+        }
+
+        public void CreateNewGame()
+        {
+            //var game=new Games{Name=name,};
+        }
     }
 }
