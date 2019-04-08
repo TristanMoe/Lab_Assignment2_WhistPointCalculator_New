@@ -117,25 +117,23 @@ namespace Lab_Assignment2_WhistPointCalculator
             {
                 var round = new NormalRound();
                 //Set foreign key GameRounds
-                var game = _db.GameRounds;
-                    
+                var gameround = _db.GameRounds
+                    .Single(gr => gr.Game.Name == gamename);
 
+                
                 //Set attributes
+                round.GameRoundsId = gameround.GameRoundsId;
                 round.Tricks = tricks;
                 round.TricksWon = trickswon;
                 round.Trump = trump;
                 round.BidWinnerPositionId = bidWinner.PlayerPosition;
                 round.BidWinnerMatePositionId = bidMateWinner.PlayerPosition;
-
                 
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
-
-
-
         }
 
     }
