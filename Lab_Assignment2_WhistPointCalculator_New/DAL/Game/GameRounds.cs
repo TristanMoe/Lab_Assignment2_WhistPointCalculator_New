@@ -28,7 +28,6 @@ namespace Lab_Assignment2_WhistPointCalculator
         //Navigation Property for Games
         public Games Game { get; set; }
 
-        [Required]
         //Foreign Key for roundtype 
         public int RoundTypeId { get; set; }
 
