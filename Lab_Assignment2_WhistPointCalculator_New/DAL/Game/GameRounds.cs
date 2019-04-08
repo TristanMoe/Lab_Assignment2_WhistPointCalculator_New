@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Lab_Assignment2_WhistPointCalculator
 {
     public class GameRounds
-    {        
+    {
         //Attributes
 
         //Primary Key
-        [Required]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int GameRoundsId { get; set; }
 
         [Range(1,9)]

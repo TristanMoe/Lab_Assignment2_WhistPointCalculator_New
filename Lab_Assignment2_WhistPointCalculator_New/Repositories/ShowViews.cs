@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Threading.Tasks;
+using System.Transactions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Lab_Assignment2_WhistPointCalculator
@@ -29,7 +31,6 @@ namespace Lab_Assignment2_WhistPointCalculator
                         .ThenInclude(p => p.GamePlayer)
                             .ThenInclude(p => p.Player)
                 .SingleAsync(p => p.GamesId == gamesId);
-
             return game;
 
 
@@ -85,9 +86,25 @@ namespace Lab_Assignment2_WhistPointCalculator
             _db.Add(game);
         }
 
-        public void GameEnded()
+        public void CreateNewGame(string name,  List<GamePlayers> gamePlayers)
         {
+            var Game = new Games();
+            Game.Started = true;
+            Game.Updated = DateTime.Now;
+            //Game.GamesId = id;
+            Game.Name = name; 
 
+            //Set Foreign key for each gameplayer 
+            foreach (var gamePlayer in gamePlayers)
+            {
+                gamePlayer.GamesId = Game.GamesId; 
+            }
+
+            //Insert game into Database
+            _db.Games.Add(Game); 
         }
+
+
+
     }
 }
