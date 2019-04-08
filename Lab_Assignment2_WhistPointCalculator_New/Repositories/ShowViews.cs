@@ -51,15 +51,43 @@ namespace Lab_Assignment2_WhistPointCalculator
              //Tristan er langsom så funktionen er ikke færdig*/
         }
 
-        public async Task<List<Games>> GameWinners(DataContext db)
+       /* public async Task<List<Games>> GameWinners(DataContext db)
         {
-            /*var games=await db.Games
-                .Include(p=>p.Wi)*/
+            var games=await db.Games
+                .Include(p=>p.Wi)
+        }*/
+
+        public void CreateNewPlayer(Players player)
+        {
+            _db.Players.Add(player);
+            //var game=new Games{Name=name,};
         }
 
-        public void CreateNewGame()
+        public void EditPlayer(int id)
         {
-            //var game=new Games{Name=name,};
+            var player = _db.Players.Single(p => p.PlayerId == id);
+            _db.Update(player);
+            _db.SaveChanges();
+        }
+
+        public void DeletePlayer(int id)
+        {
+            var player = _db.Players.Single(p => p.PlayerId == id);
+            _db.Remove(player);
+            _db.SaveChanges();
+        }
+
+        public void NewGame(Games game)
+        {
+            game.Started = true;
+            game.Ended = false;
+            
+            _db.Add(game);
+        }
+
+        public void GameEnded()
+        {
+
         }
     }
 }
