@@ -88,23 +88,32 @@ namespace Lab_Assignment2_WhistPointCalculator
 
         public void CreateNewGame(string name,  List<GamePlayers> gamePlayers)
         {
-            var Game = new Games();
-            Game.Started = true;
-            Game.Updated = DateTime.Now;
-            //Game.GamesId = id;
-            Game.Name = name; 
-
-            //Set Foreign key for each gameplayer 
-            foreach (var gamePlayer in gamePlayers)
+            try
             {
-                gamePlayer.GamesId = Game.GamesId; 
-            }
+                if(gamePlayers.Count != 4)
+                    throw new ArgumentException("There must be at least 4 players");
 
-            //Insert game into Database
-            _db.Games.Add(Game); 
+                var game = new Games {Started = true, Updated = DateTime.Now, Name = name};
+                
+                //Set Foreign key for each gameplayer 
+                foreach (var gamePlayer in gamePlayers)
+                {
+                    gamePlayer.GamesId = game.GamesId;
+                }
+
+                //Insert game into Database
+                _db.Games.Add(game);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
-
+        public void AddRound(Games Game)
+        {
+            
+        }
 
     }
 }
