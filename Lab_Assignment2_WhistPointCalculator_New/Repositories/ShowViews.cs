@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Transactions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.Internal;
+using Remotion.Linq.Utilities;
 
 namespace Lab_Assignment2_WhistPointCalculator
 {
@@ -79,93 +80,79 @@ namespace Lab_Assignment2_WhistPointCalculator
             _db.SaveChanges();
         }
 
-        public void CreateNewGame(string name,  List<GamePlayers> gamePlayers)
+        public void CreateNewGame(string name,  List<string> PlayersFirstname, string locationName)
         {
-            //try
-            //{
-            //    if(gamePlayers.Count != 4)
-            //        throw new ArgumentException("There must be at least 4 players");
 
-            //    var game = new Games {Started = true, Ended = false, Updated = DateTime.Now, Name = name};
-            //    var gameRounds = new GameRounds();
+            var game = new Games { Started = true, Ended = false, Updated = DateTime.Now, Name = name};
+            var location = new Location {Name = locationName}; 
+            var gameRounds = new GameRounds();
 
-            //    //Set Foreign key for games
-            //    gameRounds.GamesId = game.GamesId;
-                
-            //    //Set Foreign key for each gameplayer 
-            //    foreach (var gamePlayer in gamePlayers)
-            //    {
-            //        var gameRoundPlayer = new GameRoundPlayers();
-            //        gameRoundPlayer.PlayerPositionId = gamePlayer.PlayerPosition;
-            //        gameRoundPlayer.GameRoundsId = gameRounds.GameRoundsId;
+            //Set Foreign key for game rounds 
+            gameRounds.GamesId = game.GamesId; 
 
-            //        //Set game
-            //        gamePlayer.GamesId = game.GamesId;
-            //    }
+            //Set Foreign key for Location 
+            game.LocationId = location.LocationId; 
 
-            //    //Insert game into Database
-            //    _db.Games.Add(game);
-            //}
-            //catch (Exception e)
-            //{
-            //    Console.WriteLine(e.Message);
-            //}
+            //set foreign key for each gameplay (assumes that they exist in database)
+            foreach (var gamePlayer in PlayersFirstname)
+            {
+                //Find Player
+                var player = _db.Players
+                    .Single(p => p.FirstName == gamePlayer);
+
+                var gameplayer = _db.GamePlayers
+                    .Single(gp => gp.PlayerId == player.PlayerId);
+
+                gameplayer.GamesId = game.GamesId;
+            }
+
+            _db.Games.Add(game);
+            _db.GameRounds.Add(gameRounds);
+            _db.Locations.Add(location);
+
+            _db.SaveChanges();
         }
 
-        public void AddRound(string gamename, int tricks, int trickswon, string trump, GamePlayers bidWinner, GamePlayers bidMateWinner)
+        public void AddRound(string gamename, int tricks, int trickswon, string trump, string FN_winnerGameplayer, string FN_winnerMateGamePlayer)
         {
-            //try
-            //{
-            //    var round = new NormalRound();
-            //    //Set foreign key GameRounds
-            //    var gameround = _db.GameRounds
-            //        .Single(gr => gr.Game.Name == gamename);
+            var game = _db.Games
+                .Single(g => g.Name == gamename);
 
-            //    var gameroundplayer1 = _db.GameRoundPlayers
-            //        .Single(grp => grp.PlayerPositionId == bidWinner.PlayerPosition);
+            var gameround = _db.GameRounds
+                .Include(gr => gr.Game)
+                    .ThenInclude(g => g.GamePlayers)
+                        .ThenInclude(p => p.Player)
+                .Single(gr => gr.GamesId == game.GamesId);
 
-            //    var gameroundplayer2 = _db.GameRoundPlayers
-            //        .Single(grp => grp.PlayerPositionId == bidMateWinner.PlayerPosition);
+            var gameplayers = _db.GamePlayers
+                .Include(gp =>
+                    gp.Player.FirstName == FN_winnerGameplayer && gp.Player.FirstName == FN_winnerMateGamePlayer)
+                .ToList();
 
-            //    gameroundplayer1.Points += trickswon;
-            //    gameroundplayer2.Points += trickswon;
-                
-            //    //Set attributes
-            //    round.GameRoundsId = gameround.GameRoundsId;
-            //    round.Tricks = tricks;
-            //    round.TricksWon = trickswon;
-            //    round.Trump = trump;
-            //    round.BidWinnerPositionId = bidWinner.PlayerPosition;
-            //    round.BidWinnerMatePositionId = bidMateWinner.PlayerPosition;
-            //}
-            //catch (Exception e)
-            //{
-            //    Console.WriteLine(e.Message);
-            //}
+            foreach (var gamePlayer in gameplayers)
+            {
+                gamePlayer.Points += trickswon; 
+            }
+
+            var round = new Rounds
+            {
+                Tricks = tricks,
+                TricksWon = trickswon,
+                Trump = trump
+            };
+
+            _db.Rounds.Add(round);
+            _db.SaveChanges();
 
         }
 
         public void EndGame(string gamename)
         {
-            try
-            {
-                //load game
-                var game = _db.Games
-                    .Single(g => g.Name == gamename);
 
-                //Load gamerounds
-                var gamerounds = _db.GameRounds
-                    .Include(gr => gr.Game.Name == gamename)
-                    .Include(gr => gr.Rounds)
-                    .ToList();
-
-
-            }
-            catch(Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
+            //load game
+            var game = _db.Games
+                .Single(g => g.Name == gamename);
+            game.Ended = true; 
         }
-
     }
 }
