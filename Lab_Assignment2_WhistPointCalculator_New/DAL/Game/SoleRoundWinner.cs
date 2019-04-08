@@ -8,6 +8,7 @@ namespace Lab_Assignment2_WhistPointCalculator
 {
     public class SoleRoundWinner
     {
+        [Range(1,13)]
         public int Tricks { get; set; }
 
         [Required]

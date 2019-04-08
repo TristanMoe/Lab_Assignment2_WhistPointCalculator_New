@@ -16,8 +16,8 @@ namespace Lab_Assignment2_WhistPointCalculator
         [Range(1,9)]
         public int RoundNumber { get; set; }
 
-        //Not entirely sure what these are supposed to mean
-        //TODO: Discuss 'em
+        //Which players turn it is to deal?
+        [Range(1,4)]
         public int DealerPosition { get; set; }
         public bool Ended { get; set; }
         public bool Started { get; set; }

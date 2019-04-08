@@ -11,9 +11,7 @@ namespace Lab_Assignment2_WhistPointCalculator
         //Attributes 
         [Range(1,13)]
         public int Tricks { get; set; }
-        public string BidAttachment { get; set; }
-        [Range(7,13)]
-        public int BidTricks { get; set; }
+        public string Trump { get; set; }
 
         [Required]
         //Foreign key for bid winner position 

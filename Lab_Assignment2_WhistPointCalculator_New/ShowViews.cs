@@ -51,11 +51,12 @@ namespace Lab_Assignment2_WhistPointCalculator
              //Tristan er langsom så funktionen er ikke færdig*/
         }
 
-        public async Task<List<Games>> GameWinners(DataContext db)
-        {
-            /*var games=await db.Games
-                .Include(p=>p.Wi)*/
-        }
+        //public async Task<List<Games>> GameWinners(DataContext db)
+        //{
+        //    /*var games=await db.Games
+        //        .Include(p=>p.Wi)*/
+         
+        //}
 
         public void CreateNewGame()
         {
