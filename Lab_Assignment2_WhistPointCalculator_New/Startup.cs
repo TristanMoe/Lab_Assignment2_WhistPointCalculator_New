@@ -39,6 +39,7 @@ namespace Lab_Assignment2_WhistPointCalculator_New
                 .AddDbContext<DataContext>((serviceProvider, options) =>
                     options.UseInMemoryDatabase("WhistDatabase")
                     .UseInternalServiceProvider(serviceProvider));
+            services.AddTransient<ShowViews>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 

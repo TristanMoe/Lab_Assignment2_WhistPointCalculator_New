@@ -11,13 +11,15 @@ namespace Lab_Assignment2_WhistPointCalculator_New.Controllers
 {
     public class HomeController : Controller
     {
-        private DataContext _dbContext;
-        public HomeController(DataContext dbContext)
+        private ShowViews _showViewsRepo;
+        public HomeController(ShowViews showViews)
         {
+            _showViewsRepo = showViews;
         }
         public IActionResult Index()
         {
-            return View();
+            var viewModel = new HomeViewModel() { Players = _showViewsRepo._db.Players.ToList() };
+            return View(viewModel);
         }
         
 
@@ -25,6 +27,25 @@ namespace Lab_Assignment2_WhistPointCalculator_New.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult StartNewGame()
+        {
+            var game = new Games();
+            var players = _showViewsRepo._db.Players.ToList();
+
+
+            for (int i = 0; i < players.Count; i++)
+            {
+                game.GamePlayers.Add(new GamePlayers()
+                {
+                    PlayerId = players[i].PlayerId,
+                    Player = players[i],
+                    PlayerPosition = i,
+                });
+            }
+            _showViewsRepo.NewGame(game);
+            return RedirectToAction("Index", "Round");
         }
     }
 }

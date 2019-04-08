@@ -2,7 +2,18 @@
     ViewData["Title"] = "Home Page";
 }
 
+@model HomeViewModel
+
 <div class="text-center">
     <h1 class="display-4">Welcome to the Whist Point Calculator</h1>
-    <p><a asp-action="Index" asp-controller="Game">Start a new game here</a>.</p>
 </div>
+
+<p>Current Players:</p>
+<ol>
+    @foreach (var player in Model.Players)
+    {
+        <li>@(player.FirstName) @(player.LastName)</li>
+    }
+</ol>
+<a asp-action="Index" asp-controller="Players">Edit/Add players</a>
+<p><a asp-action="StartNewGame">Start a new game here</a>.</p>
