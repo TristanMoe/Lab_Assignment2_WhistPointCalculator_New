@@ -150,7 +150,6 @@ namespace Lab_Assignment2_WhistPointCalculator
 
         public void EndGame(string gamename)
         {
-
             //load game
             var game = _db.Games
                 .Single(g => g.Name == gamename);
