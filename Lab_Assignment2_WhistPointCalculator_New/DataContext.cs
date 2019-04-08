@@ -119,8 +119,6 @@ namespace Lab_Assignment2_WhistPointCalculator
                 .WithOne(nr => nr.BidWinnerMateGameplayer)
                 .HasForeignKey<Rounds>(nr => new { nr.BidWinnerMatePositionId, nr.GameRoundsId});
             #endregion
-
-            DataSeeder.Seed(modelBuilder);
         }
     }
 }

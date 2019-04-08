@@ -3,8 +3,8 @@ using Lab_Assignment2_WhistPointCalculator;
 
 namespace Lab_Assignment2_WhistPointCalculator_New.ViewModels
 {
-    public class GameViewModel
+    public class RoundViewModel
     {
-        public List<Players> Players { get; set; }
+        public Games CurrentGame { get; set; }
     }
 }

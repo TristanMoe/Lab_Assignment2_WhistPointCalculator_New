@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = "Game";
+}
+@model RoundViewModel
+<h1>@ViewData["Title"]</h1>
+
+<p>Current Players:</p>
+<ol>
+    @foreach (var player in Model.CurrentGame.GamePlayers)
+    {
+        <li>@(player.Player.FirstName) @(player.Player.LastName)</li>
+    }
+</ol>

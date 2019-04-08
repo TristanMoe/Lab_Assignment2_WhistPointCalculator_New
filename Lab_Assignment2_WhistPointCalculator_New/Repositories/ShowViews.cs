@@ -18,11 +18,13 @@ namespace Lab_Assignment2_WhistPointCalculator
         {
             _db = db;
         }
-        public async Task<List<Games>> ListGamesWithNumberOfPlayer()
+        public async Task<Games> ListGameWithPlayers(int? id)
         {
-            var listOfGames=await _db.Games
-                .Include(players => players.GamePlayers).AsNoTracking().ToListAsync();
-            return listOfGames;
+            var games=await _db.Games
+                .Include(players => players.GamePlayers)
+                .ThenInclude(p=>p.Player)
+                .SingleAsync(p=>p.GamesId==id);
+            return games;
         }
 
         public async Task<Games> GetRoundInformation(int gamesId)

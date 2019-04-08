@@ -7,7 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Lab_Assignment2_WhistPointCalculator;
 
-namespace Lab_Assignment2_WhistPointCalculator_New.Controllers
+
+namespace Lab_Assignment2_WhistPointCalculator_New
 {
     public class GamesController : Controller
     {
@@ -21,19 +22,23 @@ namespace Lab_Assignment2_WhistPointCalculator_New.Controllers
         // GET: Games
         public async Task<IActionResult> Index()
         {
+            //var game =new Games(){Name = "SuperWeebTanks"};
+            //_context.Games.Add(game);
+            _context.SaveChanges();
+          
             return View(await _context.Games.ToListAsync());
         }
 
         // GET: Games/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            var repo=new ShowViews(_context);
             if (id == null)
             {
                 return NotFound();
             }
 
-            var games = await _context.Games
-                .FirstOrDefaultAsync(m => m.GamesId == id);
+            var games = await repo.ListGameWithPlayers(id);
             if (games == null)
             {
                 return NotFound();
