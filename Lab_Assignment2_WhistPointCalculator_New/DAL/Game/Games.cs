@@ -23,11 +23,11 @@ namespace Lab_Assignment2_WhistPointCalculator
         public bool Ended { get; set; }
         public DateTime Updated { get; set; }
 
-        //Foreign Key for Location
+        //Foreign key for location
         public int LocationId { get; set; }
 
         //Navigation Property for Location
-        public List<Location> Location { get; set; }
+        public Location Location { get; set; }
 
         //Navigation Property for Game Round
         public List<GameRounds> GameRounds { get; set; }
