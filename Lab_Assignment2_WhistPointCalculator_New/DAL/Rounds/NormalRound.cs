@@ -11,6 +11,9 @@ namespace Lab_Assignment2_WhistPointCalculator
         //Attributes 
         [Range(1,13)]
         public int Tricks { get; set; }
+        [Range(1,7)]
+        public int TricksWon { get; set; }
+
         public string Trump { get; set; }
 
         [Required]
