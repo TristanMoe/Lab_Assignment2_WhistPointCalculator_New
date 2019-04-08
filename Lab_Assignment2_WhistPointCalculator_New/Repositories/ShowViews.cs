@@ -5,6 +5,7 @@ using System.Security.Policy;
 using System.Threading.Tasks;
 using System.Transactions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 
 namespace Lab_Assignment2_WhistPointCalculator
 {
@@ -29,8 +30,8 @@ namespace Lab_Assignment2_WhistPointCalculator
         {
             var game = await _db.Games
                 .Include(d => d.GameRounds)
-                    .ThenInclude(p => p.GRPs)
-                        .ThenInclude(p => p.GamePlayer)
+                    .ThenInclude(p => p.Game)
+                        .ThenInclude(p => p.GamePlayers)
                             .ThenInclude(p => p.Player)
                 .SingleAsync(p => p.GamesId == gamesId);
             return game;
@@ -80,41 +81,92 @@ namespace Lab_Assignment2_WhistPointCalculator
             _db.SaveChanges();
         }
 
-        public void NewGame(Games game)
+        public void CreateNewGame(string name,  List<GamePlayers> gamePlayers)
         {
-            game.Started = true;
-            game.Ended = false;
-            
-            _db.Add(game);
+            //try
+            //{
+            //    if(gamePlayers.Count != 4)
+            //        throw new ArgumentException("There must be at least 4 players");
+
+            //    var game = new Games {Started = true, Ended = false, Updated = DateTime.Now, Name = name};
+            //    var gameRounds = new GameRounds();
+
+            //    //Set Foreign key for games
+            //    gameRounds.GamesId = game.GamesId;
+                
+            //    //Set Foreign key for each gameplayer 
+            //    foreach (var gamePlayer in gamePlayers)
+            //    {
+            //        var gameRoundPlayer = new GameRoundPlayers();
+            //        gameRoundPlayer.PlayerPositionId = gamePlayer.PlayerPosition;
+            //        gameRoundPlayer.GameRoundsId = gameRounds.GameRoundsId;
+
+            //        //Set game
+            //        gamePlayer.GamesId = game.GamesId;
+            //    }
+
+            //    //Insert game into Database
+            //    _db.Games.Add(game);
+            //}
+            //catch (Exception e)
+            //{
+            //    Console.WriteLine(e.Message);
+            //}
         }
 
-        public void CreateNewGame(string name,  List<GamePlayers> gamePlayers)
+        public void AddRound(string gamename, int tricks, int trickswon, string trump, GamePlayers bidWinner, GamePlayers bidMateWinner)
+        {
+            //try
+            //{
+            //    var round = new NormalRound();
+            //    //Set foreign key GameRounds
+            //    var gameround = _db.GameRounds
+            //        .Single(gr => gr.Game.Name == gamename);
+
+            //    var gameroundplayer1 = _db.GameRoundPlayers
+            //        .Single(grp => grp.PlayerPositionId == bidWinner.PlayerPosition);
+
+            //    var gameroundplayer2 = _db.GameRoundPlayers
+            //        .Single(grp => grp.PlayerPositionId == bidMateWinner.PlayerPosition);
+
+            //    gameroundplayer1.Points += trickswon;
+            //    gameroundplayer2.Points += trickswon;
+                
+            //    //Set attributes
+            //    round.GameRoundsId = gameround.GameRoundsId;
+            //    round.Tricks = tricks;
+            //    round.TricksWon = trickswon;
+            //    round.Trump = trump;
+            //    round.BidWinnerPositionId = bidWinner.PlayerPosition;
+            //    round.BidWinnerMatePositionId = bidMateWinner.PlayerPosition;
+            //}
+            //catch (Exception e)
+            //{
+            //    Console.WriteLine(e.Message);
+            //}
+
+        }
+
+        public void EndGame(string gamename)
         {
             try
             {
-                if(gamePlayers.Count != 4)
-                    throw new ArgumentException("There must be at least 4 players");
+                //load game
+                var game = _db.Games
+                    .Single(g => g.Name == gamename);
 
-                var game = new Games {Started = true, Updated = DateTime.Now, Name = name};
-                
-                //Set Foreign key for each gameplayer 
-                foreach (var gamePlayer in gamePlayers)
-                {
-                    gamePlayer.GamesId = game.GamesId;
-                }
+                //Load gamerounds
+                var gamerounds = _db.GameRounds
+                    .Include(gr => gr.Game.Name == gamename)
+                    .Include(gr => gr.Rounds)
+                    .ToList();
 
-                //Insert game into Database
-                _db.Games.Add(game);
+
             }
-            catch (Exception e)
+            catch(Exception e)
             {
                 Console.WriteLine(e.Message);
             }
-        }
-
-        public void AddRound(Games Game)
-        {
-            
         }
 
     }

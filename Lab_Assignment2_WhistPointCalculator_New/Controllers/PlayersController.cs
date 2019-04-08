@@ -16,19 +16,18 @@ namespace Lab_Assignment2_WhistPointCalculator_New.Controllers
             _dbContext = dbContext;
         }
 
-        // GET: Job
         public async Task<IActionResult> Index()
         {
             return View(await _dbContext.Players.ToListAsync());
         }
 
-        public async Task<IActionResult> AddPlayer([Bind("FirstName,LastName")] Players playerModel)
+        public async Task<IActionResult> Add([Bind("PlayerId,FirstName,LastName")] Players playerModel)
         {
             if (ModelState.IsValid)
             {
                 _dbContext.Add(playerModel);
                 await _dbContext.SaveChangesAsync();
-                return RedirectToAction(nameof(Index), "Game");
+                return RedirectToAction(nameof(Index));
             }
             return View(playerModel);
         }
@@ -49,9 +48,6 @@ namespace Lab_Assignment2_WhistPointCalculator_New.Controllers
             return View(player);
         }
 
-        // POST: Job/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("FirstsName,LastName")] Players playerModel)
@@ -84,7 +80,7 @@ namespace Lab_Assignment2_WhistPointCalculator_New.Controllers
             return View(playerModel);
         }
 
-        // GET: Job/Delete/5
+
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -102,7 +98,6 @@ namespace Lab_Assignment2_WhistPointCalculator_New.Controllers
             return View(player);
         }
 
-        // POST: Job/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
