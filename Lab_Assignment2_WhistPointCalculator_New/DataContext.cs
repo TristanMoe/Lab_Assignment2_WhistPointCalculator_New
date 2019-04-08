@@ -160,8 +160,6 @@ namespace Lab_Assignment2_WhistPointCalculator
                 .HasForeignKey<NormalRound>(nr => new { nr.BidWinnerMatePositionId, nr.GameRoundsId});
 
             #endregion
-
-            DataSeeder.Seed(modelBuilder);
         }
     }
 }
