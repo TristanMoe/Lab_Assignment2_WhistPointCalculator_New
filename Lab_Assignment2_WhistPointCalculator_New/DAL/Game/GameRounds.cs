@@ -28,12 +28,6 @@ namespace Lab_Assignment2_WhistPointCalculator
         //Navigation Property for Games
         public Games Game { get; set; }
 
-        //Navigation Property for GameRoundPlayers
-        public List<GameRoundPlayers> GRPs { get; set; }
-
-        //Navigation Property for SoleRoundWinner
-        public List<SoleRoundWinner> SR_Winners { get; set; }
-
         [Required]
         //Foreign Key for roundtype 
         public int RoundTypeId { get; set; }

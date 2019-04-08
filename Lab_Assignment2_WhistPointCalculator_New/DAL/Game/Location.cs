@@ -14,6 +14,7 @@ namespace Lab_Assignment2_WhistPointCalculator
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int LocationId { get; set; }
         public string Name { get; set; }
+
         //Navigation Property for Games
         public Games Game { get; set; }
     }
