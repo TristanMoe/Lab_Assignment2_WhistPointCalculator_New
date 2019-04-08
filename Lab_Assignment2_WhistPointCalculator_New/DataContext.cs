@@ -45,7 +45,7 @@ namespace Lab_Assignment2_WhistPointCalculator
                 .HasKey(p => p.PlayerId);
 
             modelBuilder.Entity<Games>()
-                .HasKey(p => p.GamesId);
+                .HasKey(g => g.GamesId);
 
             modelBuilder.Entity<GameRounds>()
                 .HasKey(p => p.GameRoundsId);
