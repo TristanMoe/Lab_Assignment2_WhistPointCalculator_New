@@ -44,7 +44,7 @@ namespace Lab_Assignment2_WhistPointCalculator_New.Controllers
                     PlayerPosition = i,
                 });
             }
-            _showViewsRepo.NewGame(game);
+            //_showViewsRepo.NewGame(game);
             return RedirectToAction("Index", "Round");
         }
     }
