@@ -93,8 +93,9 @@ namespace Lab_Assignment2_WhistPointCalculator
             gameRounds.GamesId = game.GamesId; 
 
             //Set Foreign key for Location 
-            game.LocationId = location.LocationId; 
+            game.LocationId = location.LocationId;
 
+            int i = 1; 
             //set foreign key for each gameplay (assumes that they exist in database)
             foreach (var gamePlayer in PlayersFirstname)
             {
@@ -106,6 +107,9 @@ namespace Lab_Assignment2_WhistPointCalculator
                     .Single(gp => gp.PlayerId == player.PlayerId);
 
                 gameplayer.GamesId = game.GamesId;
+                gameplayer.PlayerPosition = i; 
+
+                i++; 
             }
 
             _db.Games.Add(game);

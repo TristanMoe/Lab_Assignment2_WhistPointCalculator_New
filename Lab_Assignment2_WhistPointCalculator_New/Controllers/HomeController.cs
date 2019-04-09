@@ -31,20 +31,19 @@ namespace Lab_Assignment2_WhistPointCalculator_New.Controllers
 
         public IActionResult StartNewGame()
         {
-            var game = new Games();
-            var players = _showViewsRepo._db.Players.ToList();
-
-
-            for (int i = 0; i < players.Count; i++)
-            {
-                game.GamePlayers.Add(new GamePlayers()
-                {
-                    PlayerId = players[i].PlayerId,
-                    Player = players[i],
-                    PlayerPosition = i,
-                });
-            }
+            
+            //for (int i = 0; i < players.Count; i++)
+            //{
+            //    game.GamePlayers.Add(new GamePlayers()
+            //    {
+            //        PlayerId = players[i].PlayerId,
+            //        Player = players[i],
+            //        PlayerPosition = i,
+            //    });
+            //}
             //_showViewsRepo.NewGame(game);
+
+
             return RedirectToAction("Index", "Round");
         }
     }

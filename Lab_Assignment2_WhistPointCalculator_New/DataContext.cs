@@ -118,6 +118,12 @@ namespace Lab_Assignment2_WhistPointCalculator
                 .HasOne(gp => gp.WinnerMateNormalRound)
                 .WithOne(nr => nr.BidWinnerMateGameplayer)
                 .HasForeignKey<Rounds>(nr => new { nr.BidWinnerMatePositionId, nr.GameRoundsId});
+
+            modelBuilder.Entity<GamePlayers>()
+                .HasMany(gp => gp.GRPs)
+                .WithOne(grp => grp.GamePlayer)
+                .HasForeignKey(grp => grp.PlayerPosition); 
+
             #endregion
         }
     }

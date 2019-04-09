@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using Lab_Assignment2_WhistPointCalculator.DAL.Players;
 
 namespace Lab_Assignment2_WhistPointCalculator
 {
@@ -31,6 +32,8 @@ namespace Lab_Assignment2_WhistPointCalculator
         public Rounds WinnerNormalRound { get; set; }
         public Rounds WinnerMateNormalRound { get; set; }
 
+        //Navigation Property for GameRoundPlayer
+        public List<GameRoundPlayers> GRPs { get; set; }
 
     }
 }
