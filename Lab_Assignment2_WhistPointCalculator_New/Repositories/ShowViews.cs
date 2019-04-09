@@ -4,7 +4,6 @@ using System.Linq;
 using System.Security.Policy;
 using System.Threading.Tasks;
 using System.Transactions;
-using Lab_Assignment2_WhistPointCalculator.DAL.Players;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 using Remotion.Linq.Utilities;
@@ -69,18 +68,18 @@ namespace Lab_Assignment2_WhistPointCalculator
             //var game=new Games{Name=name,};
         }
 
-        public void EditPlayer(int id)
+        public async Task EditPlayer(int id)
         {
             var player = _db.Players.Single(p => p.PlayerId == id);
             _db.Update(player);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
         }
 
-        public void DeletePlayer(int id)
+        public async Task DeletePlayer(int id)
         {
             var player = _db.Players.Single(p => p.PlayerId == id);
             _db.Remove(player);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
         }
 
         public List<Players> GetNameOfPlayersInGameRound(string gamename)
@@ -106,26 +105,28 @@ namespace Lab_Assignment2_WhistPointCalculator
             var game = new Games { Started = true, Ended = false, Updated = DateTime.Now, Name = name};
             var location = new Location {Name = locationName}; 
             var gameRounds = new GameRounds();
+            game.Location = location;
+            game.GameRounds = new List<GameRounds>();
+            game.GamePlayers = new List<GamePlayers>();
 
-            //Set Foreign key for game rounds 
-            gameRounds.GamesId = game.GamesId; 
-
-            //Set Foreign key for Location 
-            game.LocationId = location.LocationId;
-
-            var i = 1; 
+            int i = 1; 
             //set foreign key for each gameplay (assumes that they exist in database)
-            foreach (var gamePlayer in PlayersFirstname)
+            foreach (var playerName in playersFirstnames)
             {
                 //Find Player
                 var player = _db.Players
-                    .Single(p => p.FirstName == gamePlayer);
+                    .Single(p => p.FirstName == playerName);
 
-                var gameplayer = _db.GamePlayers
-                    .Single(gp => gp.PlayerId == player.PlayerId);
 
-                gameplayer.GamesId = game.GamesId;
-                gameplayer.PlayerPosition = i;
+                var gamePlayer = new GamePlayers
+                {
+                    Player = player,
+                    GamesId = game.GamesId,
+                    PlayerPosition = i
+                };
+
+                _db.GamePlayers.Add(gamePlayer);
+                game.GamePlayers.Add(gamePlayer);
 
                 //Add new gameround player
                 var gameRoundPlayer = new GameRoundPlayers();
@@ -138,11 +139,14 @@ namespace Lab_Assignment2_WhistPointCalculator
                 i++; 
             }
 
-            _db.Games.Add(game);
+
+            var entity = _db.Games.Add(game);
             _db.GameRounds.Add(gameRounds);
             _db.Locations.Add(location);
-
+            
             _db.SaveChanges();
+
+            return entity.Entity.GamesId;
         }
 
         public void AddRound(string gamename, int tricks, int trickswon, string trump, string FN_winnerGameplayer, string FN_winnerMateGamePlayer)

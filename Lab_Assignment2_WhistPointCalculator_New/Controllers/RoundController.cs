@@ -11,14 +11,21 @@ namespace Lab_Assignment2_WhistPointCalculator_New.Controllers
 {
     public class RoundController : Controller
     {
-        private ShowViews showViewsRepo;
+        private ShowViews _showViewsRepo;
         public RoundController(ShowViews showViews)
         {
-            showViewsRepo = showViews;
+            _showViewsRepo = showViews;
         }
-        public IActionResult Index(Games game)
+        public IActionResult Index(int gameId)
         {
-            var viewModel = new RoundViewModel(){CurrentGame = game};
+            var currentGame = _showViewsRepo._db.Games
+                .Include(g => g.GamePlayers)
+                .ThenInclude(gp=>gp.Player)
+                .Include(g=>g.GameRounds)
+                .FirstOrDefault(p => p.GamesId == gameId);
+            if (currentGame == null)
+                return NotFound();
+            var viewModel = new RoundViewModel(){CurrentGame = currentGame};
             return View(viewModel);
         }
 

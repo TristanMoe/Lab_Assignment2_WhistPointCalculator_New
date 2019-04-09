@@ -29,22 +29,14 @@ namespace Lab_Assignment2_WhistPointCalculator_New.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public IActionResult StartNewGame()
+        public IActionResult StartNewGame([Bind("GameName")] string gameName)
         {
+            if (gameName == null)
+                return View("Index");
+            var playerNames = _showViewsRepo._db.Players.Select(p => p.FirstName).ToList();
+            var gameId = _showViewsRepo.CreateNewGame(gameName, playerNames, "Who Cares");
             
-            //for (int i = 0; i < players.Count; i++)
-            //{
-            //    game.GamePlayers.Add(new GamePlayers()
-            //    {
-            //        PlayerId = players[i].PlayerId,
-            //        Player = players[i],
-            //        PlayerPosition = i,
-            //    });
-            //}
-            //_showViewsRepo.NewGame(game);
-
-
-            return RedirectToAction("Index", "Round");
+            return RedirectToAction("Index", "Round", new { gameId });
         }
     }
 }

@@ -12,31 +12,12 @@ namespace Lab_Assignment2_WhistPointCalculator.DAL
             var isSeeded = dataContext.Players.FirstOrDefault(p => p.FirstName == "Marcus");
             if (isSeeded != null)
                 return;
-
-
-            dataContext.GamePlayers.Add(
-                new GamePlayers()
+            dataContext.Players.Add(
+                new Lab_Assignment2_WhistPointCalculator.Players()
                 {
-                    GamesId = 1,
-                    PlayerId = 1,
-                    Points = 4,
-                    PlayerPosition = 1
-
-                });
-            dataContext.GamePlayers.Add(new GamePlayers()
-                {
-                    GamesId = 1,
-                    PlayerId = 2,
-                    Points = 3,
-                    PlayerPosition = 2
-                });
-            dataContext.Games.Add(
-                new Games()
-                {
-                    GamesId = 1,
-                    Name = "SuperWeebTanks",
-                    Ended = false
-
+                    FirstName = "Marcus",
+                    LastName = "Gasberg",
+                    GamePlayers = new List<GamePlayers>(),
                 });
             dataContext.Players.Add(
                 new Lab_Assignment2_WhistPointCalculator.Players()
