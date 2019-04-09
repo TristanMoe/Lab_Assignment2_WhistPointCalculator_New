@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
-using Lab_Assignment2_WhistPointCalculator.DAL.Players;
 
 namespace Lab_Assignment2_WhistPointCalculator
 {

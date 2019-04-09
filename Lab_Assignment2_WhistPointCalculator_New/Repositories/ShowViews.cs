@@ -99,7 +99,7 @@ namespace Lab_Assignment2_WhistPointCalculator
             return players; 
         }
 
-        public void CreateNewGame(string name,  List<string> PlayersFirstname, string locationName)
+        public int CreateNewGame(string name, List<string> playersFirstnames, string locationName)
         {
 
             var game = new Games { Started = true, Ended = false, Updated = DateTime.Now, Name = name};
@@ -130,8 +130,7 @@ namespace Lab_Assignment2_WhistPointCalculator
 
                 //Add new gameround player
                 var gameRoundPlayer = new GameRoundPlayers();
-                gameRoundPlayer.PlayerPosition = gameplayer.PlayerPosition;
-                gameRoundPlayer.Points = 0;
+                gameRoundPlayer.PlayerPosition = gamePlayer.PlayerPosition;
 
                 //Add GameRoundPlayer to database
                 _db.GameRoundPlayers.Add(gameRoundPlayer);
