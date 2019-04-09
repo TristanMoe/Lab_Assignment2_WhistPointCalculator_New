@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Lab_Assignment2_WhistPointCalculator.DAL;
+using Lab_Assignment2_WhistPointCalculator.DAL.Players;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Lab_Assignment2_WhistPointCalculator
@@ -51,6 +52,9 @@ namespace Lab_Assignment2_WhistPointCalculator
 
             modelBuilder.Entity<GamePlayers>()
                 .HasKey(k => new { k.GamesId, k.PlayerPosition });
+
+            modelBuilder.Entity<GameRoundPlayers>()
+                .HasKey(k => k.PlayerPosition); 
 
 
             modelBuilder.Entity<Rounds>()
@@ -122,8 +126,7 @@ namespace Lab_Assignment2_WhistPointCalculator
             modelBuilder.Entity<GamePlayers>()
                 .HasMany(gp => gp.GRPs)
                 .WithOne(grp => grp.GamePlayer)
-                .HasForeignKey(grp => grp.PlayerPosition); 
-
+                .HasForeignKey(grp => new {grp.PlayerPosition, grp.Points}); 
             #endregion
         }
     }
