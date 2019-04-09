@@ -24,6 +24,7 @@ namespace Lab_Assignment2_WhistPointCalculator
         public DbSet<Location> Locations { get; set; }
         public DbSet<GameRounds> GameRounds { get; set; }
         public DbSet<Rounds> Rounds { get; set; }
+        public DbSet<GameRoundPlayers> GameRoundPlayers { get; set; }
         #endregion
         
 
@@ -97,7 +98,12 @@ namespace Lab_Assignment2_WhistPointCalculator
             modelBuilder.Entity<GameRounds>()
                 .HasMany(gr => gr.Rounds)
                 .WithOne(r => r.Gameround)
-                .HasForeignKey(gr => gr.GameRoundsId); 
+                .HasForeignKey(gr => gr.GameRoundsId);
+
+            modelBuilder.Entity<GameRounds>()
+                .HasMany(gr => gr.GRPs)
+                .WithOne(grp => grp.GameRound)
+                .HasForeignKey(grp => grp.GameRoundsId);
             
             #endregion
 

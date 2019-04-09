@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Policy;
 using System.Threading.Tasks;
 using System.Transactions;
+using Lab_Assignment2_WhistPointCalculator.DAL.Players;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 using Remotion.Linq.Utilities;
@@ -82,6 +83,23 @@ namespace Lab_Assignment2_WhistPointCalculator
             _db.SaveChanges();
         }
 
+        public List<Players> GetNameOfPlayersInGameRound(string gamename)
+        {
+            //load game
+            var game = _db.Games
+                .Single(g => g.Name == gamename);
+
+            //TODO: Check om dette overhovedet er korrekt 
+            var players = _db.Players
+                .Include(p => p.GamePlayers)
+                .ThenInclude(gp => gp.GRPs)
+                .ThenInclude(grp => grp.GameRound)
+                .ThenInclude(gr => gr.GamesId == game.GamesId)
+                .ToList();
+
+            return players; 
+        }
+
         public void CreateNewGame(string name,  List<string> PlayersFirstname, string locationName)
         {
 
@@ -95,7 +113,7 @@ namespace Lab_Assignment2_WhistPointCalculator
             //Set Foreign key for Location 
             game.LocationId = location.LocationId;
 
-            int i = 1; 
+            var i = 1; 
             //set foreign key for each gameplay (assumes that they exist in database)
             foreach (var gamePlayer in PlayersFirstname)
             {
@@ -107,7 +125,15 @@ namespace Lab_Assignment2_WhistPointCalculator
                     .Single(gp => gp.PlayerId == player.PlayerId);
 
                 gameplayer.GamesId = game.GamesId;
-                gameplayer.PlayerPosition = i; 
+                gameplayer.PlayerPosition = i;
+
+                //Add new gameround player
+                var gameRoundPlayer = new GameRoundPlayers();
+                gameRoundPlayer.PlayerPosition = gameplayer.PlayerPosition;
+                gameRoundPlayer.Points = 0;
+
+                //Add GameRoundPlayer to database
+                _db.GameRoundPlayers.Add(gameRoundPlayer);
 
                 i++; 
             }

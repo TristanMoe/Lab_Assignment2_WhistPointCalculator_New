@@ -11,6 +11,12 @@ namespace Lab_Assignment2_WhistPointCalculator.DAL.Players
         public int PlayerPosition { get; set; }
         public int Points { get; set; }
 
+        //Foreign key
+        public int GameRoundsId { get; set; }
+
+        //Navigation property for GameRound 
+        public GameRounds GameRound { get; set; }
+
         //Navigation Property
         public GamePlayers GamePlayer { get; set; }
     }
