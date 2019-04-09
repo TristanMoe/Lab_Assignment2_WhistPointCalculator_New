@@ -68,21 +68,21 @@ namespace Lab_Assignment2_WhistPointCalculator
             //var game=new Games{Name=name,};
         }
 
-        public void EditPlayer(int id)
+        public async Task EditPlayer(int id)
         {
             var player = _db.Players.Single(p => p.PlayerId == id);
             _db.Update(player);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
         }
 
-        public void DeletePlayer(int id)
+        public async Task DeletePlayer(int id)
         {
             var player = _db.Players.Single(p => p.PlayerId == id);
             _db.Remove(player);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
         }
 
-        public void CreateNewGame(string name,  List<string> PlayersFirstname, string locationName)
+        public int CreateNewGame(string name,  List<string> playersFirstnames, string locationName)
         {
 
             var game = new Games { Started = true, Ended = false, Updated = DateTime.Now, Name = name};
@@ -97,26 +97,33 @@ namespace Lab_Assignment2_WhistPointCalculator
 
             int i = 1; 
             //set foreign key for each gameplay (assumes that they exist in database)
-            foreach (var gamePlayer in PlayersFirstname)
+            foreach (var playerName in playersFirstnames)
             {
                 //Find Player
                 var player = _db.Players
-                    .Single(p => p.FirstName == gamePlayer);
+                    .Single(p => p.FirstName == playerName);
 
-                var gameplayer = _db.GamePlayers
-                    .Single(gp => gp.PlayerId == player.PlayerId);
 
-                gameplayer.GamesId = game.GamesId;
-                gameplayer.PlayerPosition = i; 
+                var gamePlayer = new GamePlayers
+                {
+                    Player = player,
+                    GamesId = game.GamesId,
+                    PlayerPosition = i
+                };
+
+                _db.GamePlayers.Add(gamePlayer);
 
                 i++; 
             }
 
-            _db.Games.Add(game);
+
+            var entity = _db.Games.Add(game);
             _db.GameRounds.Add(gameRounds);
             _db.Locations.Add(location);
 
             _db.SaveChanges();
+
+            return entity.Entity.GamesId;
         }
 
         public void AddRound(string gamename, int tricks, int trickswon, string trump, string FN_winnerGameplayer, string FN_winnerMateGamePlayer)

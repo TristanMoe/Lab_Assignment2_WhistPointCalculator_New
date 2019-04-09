@@ -38,6 +38,14 @@ namespace Lab_Assignment2_WhistPointCalculator.DAL
                     Ended = false
 
                 });
+
+            dataContext.Players.Add(
+                new Lab_Assignment2_WhistPointCalculator.Players()
+                {
+                    FirstName = "Marcus",
+                    LastName = "Gasberg",
+                    GamePlayers = new List<GamePlayers>(),
+                });
             dataContext.Players.Add(
                 new Lab_Assignment2_WhistPointCalculator.Players()
                 {
