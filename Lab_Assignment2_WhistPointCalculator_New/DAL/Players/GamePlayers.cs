@@ -11,6 +11,7 @@ namespace Lab_Assignment2_WhistPointCalculator
         //Attributes
 
         //Primary Key
+        [Key]
         public int PlayerPosition { get; set; }
 
         public int Points { get; set; }

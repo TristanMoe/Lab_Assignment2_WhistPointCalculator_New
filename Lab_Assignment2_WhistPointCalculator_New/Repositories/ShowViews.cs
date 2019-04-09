@@ -88,12 +88,9 @@ namespace Lab_Assignment2_WhistPointCalculator
             var game = new Games { Started = true, Ended = false, Updated = DateTime.Now, Name = name};
             var location = new Location {Name = locationName}; 
             var gameRounds = new GameRounds();
-
-            //Set Foreign key for game rounds 
-            gameRounds.GamesId = game.GamesId; 
-
-            //Set Foreign key for Location 
-            game.LocationId = location.LocationId;
+            game.Location = location;
+            game.GameRounds = new List<GameRounds>();
+            game.GamePlayers = new List<GamePlayers>();
 
             int i = 1; 
             //set foreign key for each gameplay (assumes that they exist in database)
@@ -112,6 +109,7 @@ namespace Lab_Assignment2_WhistPointCalculator
                 };
 
                 _db.GamePlayers.Add(gamePlayer);
+                game.GamePlayers.Add(gamePlayer);
 
                 i++; 
             }
@@ -120,7 +118,7 @@ namespace Lab_Assignment2_WhistPointCalculator
             var entity = _db.Games.Add(game);
             _db.GameRounds.Add(gameRounds);
             _db.Locations.Add(location);
-
+            
             _db.SaveChanges();
 
             return entity.Entity.GamesId;

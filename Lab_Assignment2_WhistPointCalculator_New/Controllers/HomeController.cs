@@ -31,10 +31,12 @@ namespace Lab_Assignment2_WhistPointCalculator_New.Controllers
 
         public IActionResult StartNewGame([Bind("GameName")] string gameName)
         {
+            if (gameName == null)
+                return View("Index");
             var playerNames = _showViewsRepo._db.Players.Select(p => p.FirstName).ToList();
             var gameId = _showViewsRepo.CreateNewGame(gameName, playerNames, "Who Cares");
-
-            return RedirectToAction("Index", "Round", gameId);
+            
+            return RedirectToAction("Index", "Round", new { gameId });
         }
     }
 }
