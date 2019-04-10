@@ -13,7 +13,13 @@ namespace Lab_Assignment2_WhistPointCalculator.DAL
             if (isSeeded != null)
                 return;
 
+            dataContext.GameRounds.Add(new GameRounds()
+            {
+                GameNumber = 1,
+                GamesId = 1,
+                Rounds=new List<Rounds>()
 
+            });
             dataContext.GamePlayers.Add(
                 new GamePlayers()
                 {
@@ -59,6 +65,14 @@ namespace Lab_Assignment2_WhistPointCalculator.DAL
                     LastName = "Hansen",
                     GamePlayers = new List<GamePlayers>(),
                 });
+           
+            dataContext.Rounds.Add(new Rounds()
+            {
+                RoundNumber = 1,
+                BidWinnerPositionId = 1,
+                BidWinnerMatePositionId = 2,
+
+            });
             dataContext.SaveChanges();
         }
     }
