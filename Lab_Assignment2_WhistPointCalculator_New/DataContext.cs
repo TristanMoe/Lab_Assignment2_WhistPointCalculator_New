@@ -23,6 +23,7 @@ namespace Lab_Assignment2_WhistPointCalculator
         public DbSet<Location> Locations { get; set; }
         public DbSet<GameRounds> GameRounds { get; set; }
         public DbSet<Rounds> Rounds { get; set; }
+        public DbSet<GameRoundPlayers> GameRoundPlayers { get; set; }
         #endregion
         
 
@@ -51,6 +52,9 @@ namespace Lab_Assignment2_WhistPointCalculator
 
             modelBuilder.Entity<GamePlayers>()
                 .HasKey(k => new { k.GamesId, k.PlayerPosition });
+
+            modelBuilder.Entity<GameRoundPlayers>()
+                .HasKey(k => k.PlayerPosition); 
 
 
             modelBuilder.Entity<Rounds>()
@@ -93,7 +97,12 @@ namespace Lab_Assignment2_WhistPointCalculator
             modelBuilder.Entity<GameRounds>()
                 .HasMany(gr => gr.Rounds)
                 .WithOne(r => r.Gameround)
-                .HasForeignKey(gr => gr.GameRoundsId); 
+                .HasForeignKey(gr => gr.GameRoundsId);
+
+            modelBuilder.Entity<GameRounds>()
+                .HasMany(gr => gr.GRPs)
+                .WithOne(grp => grp.GameRound)
+                .HasForeignKey(grp => grp.GameRoundsId);
             
             #endregion
 
@@ -118,6 +127,11 @@ namespace Lab_Assignment2_WhistPointCalculator
                 .HasOne(gp => gp.WinnerMateNormalRound)
                 .WithOne(nr => nr.BidWinnerMateGameplayer)
                 .HasForeignKey<Rounds>(nr => new { nr.BidWinnerMatePositionId, nr.GameRoundsId});
+
+            modelBuilder.Entity<GamePlayers>()
+                .HasMany(gp => gp.GRPs)
+                .WithOne(grp => grp.GamePlayer)
+                .HasForeignKey(grp => new {grp.PlayerPosition, grp.Points}); 
             #endregion
         }
     }

@@ -61,7 +61,6 @@ namespace Lab_Assignment2_WhistPointCalculator_New
                 catch (Exception e)
                 {
                     Console.WriteLine(e);
-                    throw;
                 }
             }
             else

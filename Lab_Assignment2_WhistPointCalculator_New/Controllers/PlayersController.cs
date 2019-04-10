@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Lab_Assignment2_WhistPointCalculator;
+using Lab_Assignment2_WhistPointCalculator_New.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -9,24 +10,24 @@ namespace Lab_Assignment2_WhistPointCalculator_New.Controllers
 {
     public class PlayersController : Controller
     {
-        private readonly DataContext _dbContext;
+        private readonly ShowViews _showViews;
 
-        public PlayersController(DataContext dbContext)
+        public PlayersController(ShowViews showViews)
         {
-            _dbContext = dbContext;
+            _showViews = showViews;
         }
 
         public async Task<IActionResult> Index()
         {
-            return View(await _dbContext.Players.ToListAsync());
+            return View(await _showViews._db.Players.ToListAsync());
         }
 
         public async Task<IActionResult> Add([Bind("PlayerId,FirstName,LastName")] Players playerModel)
         {
             if (ModelState.IsValid)
             {
-                _dbContext.Add(playerModel);
-                await _dbContext.SaveChangesAsync();
+                _showViews.CreateNewPlayer(playerModel);
+                await _showViews._db.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(playerModel);
@@ -40,7 +41,7 @@ namespace Lab_Assignment2_WhistPointCalculator_New.Controllers
                 return NotFound();
             }
 
-            var player = await _dbContext.Players.FindAsync(id);
+            var player = await _showViews._db.Players.FindAsync(id);
             if (player == null)
             {
                 return NotFound();
@@ -50,7 +51,7 @@ namespace Lab_Assignment2_WhistPointCalculator_New.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("FirstsName,LastName")] Players playerModel)
+        public async Task<IActionResult> Edit(int id, [Bind("PlayerId,FirstName,LastName")] Players playerModel)
         {
             if (id != playerModel.PlayerId)
             {
@@ -61,12 +62,11 @@ namespace Lab_Assignment2_WhistPointCalculator_New.Controllers
             {
                 try
                 {
-                    _dbContext.Update(playerModel);
-                    await _dbContext.SaveChangesAsync();
+                    await _showViews.EditPlayer(id);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!JobApplicantModelExists(playerModel.PlayerId))
+                    if (!PlayerModelExists(playerModel.PlayerId))
                     {
                         return NotFound();
                     }
@@ -88,7 +88,7 @@ namespace Lab_Assignment2_WhistPointCalculator_New.Controllers
                 return NotFound();
             }
 
-            var player = await _dbContext.Players
+            var player = await _showViews._db.Players
                 .FirstOrDefaultAsync(m => m.PlayerId == id);
             if (player == null)
             {
@@ -102,15 +102,13 @@ namespace Lab_Assignment2_WhistPointCalculator_New.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var jobApplicantModel = await _dbContext.Players.FindAsync(id);
-            _dbContext.Players.Remove(jobApplicantModel);
-            await _dbContext.SaveChangesAsync();
+            await _showViews.DeletePlayer(id);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool JobApplicantModelExists(int id)
+        private bool PlayerModelExists(int id)
         {
-            return _dbContext.Players.Any(e => e.PlayerId == id);
+            return _showViews._db.Players.Any(e => e.PlayerId == id);
         }
     }
 }
