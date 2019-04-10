@@ -38,6 +38,32 @@ namespace Lab_Assignment2_WhistPointCalculator_New.Controllers
             return View(roundViewModel);
         }
 
+        //SavePoints
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SavePoints(int id, [Bind("PlayerId,FirstName,LastName")] GamePlayers playerModel)
+        {
+            if (id != playerModel.PlayerId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _showViewsRepo._db.GamePlayers.Update(playerModel);
+                    _showViewsRepo._db.SaveChanges();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    throw;
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View("Index",new RoundViewModel(){CurrentGame =  playerModel.Game});
+        }
+
         public IActionResult NextRound(int gameId)
         {
             _showViewsRepo._db.SaveChanges();

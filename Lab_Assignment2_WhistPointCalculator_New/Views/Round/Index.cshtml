@@ -7,13 +7,19 @@
 <h1>@ViewData["Title"]</h1>
 
 <p>Current Players:</p>
-@foreach (var player in Model.CurrentGame.GamePlayers)
-{
-    <p>@(player.Player.FirstName) @(player.Player.LastName)</p>
-    <div class="form-group">
-        @Html.LabelFor(m => player.Points)
-        @Html.TextBoxFor(m => player.Points)
-    </div>
-}
-
-<a asp-action="NextRound" asp-route-gameId="@Model.CurrentGame.GamesId">Next Round</a>
+<form asp-action="SavePoints">
+    @foreach (var player in Model.CurrentGame.GamePlayers)
+    {
+        <p>@(player.Player.FirstName) @(player.Player.LastName)</p>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="@player.Points"></label>
+            <input asp-for="@player.Points" class="form-control"/>
+        </div>
+    
+        <div class="form-group">
+            <input type="submit" value="Save Points" class="btn">
+        </div>
+    }
+</form>
+<a asp-action="NextRound" asp-route-gameId="@Model.CurrentGame.GamesId"></a>
