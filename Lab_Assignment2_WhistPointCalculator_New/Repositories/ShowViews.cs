@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Policy;
 using System.Threading.Tasks;
 using System.Transactions;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 using Remotion.Linq.Utilities;
@@ -82,19 +83,20 @@ namespace Lab_Assignment2_WhistPointCalculator
             await _db.SaveChangesAsync();
         }
 
-        public List<Players> GetNameOfPlayersInGameRound(string gamename)
+        public List<Players> GetNameOfPlayersInGameRound(int gameId)
         {
-            //load game
-            var game = _db.Games
-                .Single(g => g.Name == gamename);
+            List<Players> players = new List<Players>(); 
 
-            //TODO: Check om dette overhovedet er korrekt 
-            var players = _db.Players
-                .Include(p => p.GamePlayers)
-                .ThenInclude(gp => gp.GRPs)
-                .ThenInclude(grp => grp.GameRound)
-                .ThenInclude(gr => gr.GamesId == game.GamesId)
+            var gamePlayers = _db.GamePlayers
+                .Where(gp => gp.GamesId == gameId)
                 .ToList();
+
+            foreach (var gamePlayer in gamePlayers)
+            {
+                players = _db.Players
+                    .Where(p => p.PlayerId == gamePlayer.PlayerId)
+                    .ToList(); 
+            }
 
             return players; 
         }
@@ -137,8 +139,7 @@ namespace Lab_Assignment2_WhistPointCalculator
 
                 i++; 
             }
-
-
+            
             var entity = _db.Games.Add(game);
             _db.GameRounds.Add(gameRounds);
             _db.Locations.Add(location);
@@ -148,16 +149,30 @@ namespace Lab_Assignment2_WhistPointCalculator
             return entity.Entity.GamesId;
         }
 
-        public void AddRound(string gamename, int tricks, int trickswon, string trump, string FN_winnerGameplayer, string FN_winnerMateGamePlayer)
+        public void AddPointsToGameRoundPlayer(int gameId, int points)
+        {
+            var gameRoundPlayer = _db.GameRoundPlayers
+                .Include(grp => grp.GameRound).Where(grp => grp.GameRound.Game.GamesId == gameId)
+                .FirstOrDefault(grp => grp.GameRound.GamesId == gameId);
+
+            gameRoundPlayer.Points = points;
+        }
+
+
+        public void AddRound(int gameId, int tricks, int trickswon, string trump, string FN_winnerGameplayer, string FN_winnerMateGamePlayer)
         {
             var game = _db.Games
-                .Single(g => g.Name == gamename);
+                .FirstOrDefault(g => g.GamesId == gameId);
+            if (game == null)
+                throw new Exception("ERROR, NOT FOUND");
 
             var gameround = _db.GameRounds
                 .Include(gr => gr.Game)
                     .ThenInclude(g => g.GamePlayers)
                         .ThenInclude(p => p.Player)
-                .Single(gr => gr.GamesId == game.GamesId);
+                .FirstOrDefault(gr => gr.GamesId == game.GamesId);
+            if (gameround == null)
+                throw new Exception("ERROR, NOT FOUND");
 
             var gameplayers = _db.GamePlayers
                 .Include(gp =>
@@ -181,12 +196,32 @@ namespace Lab_Assignment2_WhistPointCalculator
 
         }
 
-        public void EndGame(string gamename)
+        public void EndGame(int gamesId)
         {
             //load game
             var game = _db.Games
-                .Single(g => g.Name == gamename);
+                .FirstOrDefault(g => g.GamesId == gamesId);
+            if (game == null)
+                throw new Exception($"ERROR, NOT FOUND: {gamesId}");
+
+            ////load game round players
+            //var gameRoundPlayers = _db.GameRoundPlayers
+            //    .Include(grp => grp.GameRound)
+            //    .Where(grp => grp.GameRound.Game.GamesId == gamesId)
+            //    .ToList();
+
+            //foreach (var grp in gameRoundPlayers)
+            //{
+            //    var gamePlayer = _db.GamePlayers
+            //        .FirstOrDefault(gp => gp.PlayerPosition == grp.PlayerPosition);
+            //    if(gamePlayer == null)
+            //        throw new Exception($"ERROR, NOT FOUND: Gameplayers");
+
+            //    gamePlayer.Points += grp.Points; 
+            //}
             game.Ended = true; 
+
+
         }
     }
 }
