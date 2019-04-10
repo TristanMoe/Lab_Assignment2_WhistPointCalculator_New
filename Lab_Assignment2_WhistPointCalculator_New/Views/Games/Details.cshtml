@@ -7,36 +7,63 @@
 <h1>Details</h1>
 
 <div>
-    <h4>Games</h4>
+    <h4>Game Status</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Name)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Name)
         </dd>
 
-        
-        <dt class = "col-sm-2">
+
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Ended)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Ended)
         </dd>
-       
+
 
 
     </dl>
-    
+
     <dl>
         @foreach (var player in Model.GamePlayers)
         {
             <dt>@player.Player.FirstName @player.Player.LastName</dt>
             <dd>Points: @player.Points</dd>
-                                       
+
         }
+
     </dl>
+
+    <h4>Game round information</h4>
+    <hr />
+    @{
+        
+        @*foreach (var game in Model.GameRounds)
+        {
+            <h5>Game @game.GameNumber</h5>
+            <dl>
+                @foreach (var round in game.Rounds)
+                {
+                    <h6>@round.RoundNumber</h6>
+                    <dl>
+                        <dt>Winners</dt>
+                        <dd>@round.BidWinnerGameplayer.Player.FirstName @round.BidWinnerGameplayer.Player.LastName</dd>
+                        <dd>@round.BidWinnerMateGameplayer.Player.FirstName @round.BidWinnerMateGameplayer.Player.LastName</dd>
+                    </dl>
+                }
+
+            </dl>
+        }*@
+
+    }
+
+
+
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.GamesId">Edit</a> |

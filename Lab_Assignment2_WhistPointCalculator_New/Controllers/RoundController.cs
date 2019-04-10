@@ -22,6 +22,7 @@ namespace Lab_Assignment2_WhistPointCalculator_New.Controllers
                 .Include(g => g.GamePlayers)
                 .ThenInclude(gp=>gp.Player)
                 .Include(g=>g.GameRounds)
+                .ThenInclude(gr=>gr.GRPs)
                 .FirstOrDefault(p => p.GamesId == gameId);
             if (currentGame == null)
                 return NotFound();
@@ -29,9 +30,51 @@ namespace Lab_Assignment2_WhistPointCalculator_New.Controllers
             return View(viewModel);
         }
 
-        public IActionResult NextRound()
+        [HttpPost]
+        public IActionResult Index(RoundViewModel roundViewModel)
         {
-            return View("Index");
+            if (roundViewModel == null)
+                return NotFound();
+            return View(roundViewModel);
+        }
+
+        //SavePoints
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SavePoints(int id, [Bind("PlayerId,FirstName,LastName")] GamePlayers playerModel)
+        {
+            if (id != playerModel.PlayerId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _showViewsRepo._db.GamePlayers.Update(playerModel);
+                    _showViewsRepo._db.SaveChanges();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    throw;
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View("Index",new RoundViewModel(){CurrentGame =  playerModel.Game});
+        }
+
+        public IActionResult NextRound(int gameId)
+        {
+            _showViewsRepo._db.SaveChanges();
+            var currentGame = _showViewsRepo._db.Games
+                .Include(g => g.GamePlayers)
+                .ThenInclude(gp => gp.Player)
+                .Include(g => g.GameRounds)
+                .ThenInclude(gr => gr.GRPs)
+                .FirstOrDefault(p => p.GamesId == gameId);
+            //Add new round
+            return View("Index",new RoundViewModel(){CurrentGame = currentGame});
         }
     }
 }

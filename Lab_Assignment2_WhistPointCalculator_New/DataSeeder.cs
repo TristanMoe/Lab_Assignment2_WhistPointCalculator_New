@@ -12,13 +12,7 @@ namespace Lab_Assignment2_WhistPointCalculator.DAL
             var isSeeded = dataContext.Players.FirstOrDefault(p => p.FirstName == "Marcus");
             if (isSeeded != null)
                 return;
-            dataContext.Players.Add(
-                new Lab_Assignment2_WhistPointCalculator.Players()
-                {
-                    FirstName = "Marcus",
-                    LastName = "Gasberg",
-                    GamePlayers = new List<GamePlayers>(),
-                });
+
             dataContext.Players.Add(
                 new Lab_Assignment2_WhistPointCalculator.Players()
                 {
